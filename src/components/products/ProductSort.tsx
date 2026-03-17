@@ -20,12 +20,14 @@ const SORT_OPTIONS: { value: SortBy; label: string }[] = [
 ]
 
 export function ProductSort({ value, onChange }: ProductSortProps) {
+  const currentLabel = SORT_OPTIONS.find((opt) => opt.value === value)?.label || 'Sort by...'
+
   return (
     <div className='flex items-center gap-2 shrink-0'>
       <span className='text-sm text-gray-500 hidden sm:inline'>Sort by:</span>
       <Select value={value} onValueChange={(v) => onChange(v as SortBy)}>
         <SelectTrigger className='w-45' aria-label='Sort products'>
-          <SelectValue placeholder='Sort by...' />
+          <SelectValue>{currentLabel}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           {SORT_OPTIONS.map((opt) => (

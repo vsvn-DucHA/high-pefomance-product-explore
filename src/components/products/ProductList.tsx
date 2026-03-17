@@ -105,7 +105,7 @@ export function ProductList({ products, isLoading }: ProductListProps) {
       ref={scrollContainerRef}
       role='list'
       aria-label={`${products.length} products`}
-      className='overflow-y-auto h-full'
+      className='overflow-y-auto h-full scrollbar-custom'
     >
       {/* Total height container for virtual scroll */}
       <div

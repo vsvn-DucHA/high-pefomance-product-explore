@@ -214,3 +214,26 @@ body {
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  /* Custom Scrollbar Styles */
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(209 213 219) rgb(243 244 246);
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: rgb(243 244 246);
+    border-radius: 4px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: rgb(209 213 219);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: rgb(156 163 175);
+  }
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
+import { useNavigateAfterLogin } from '@/hooks/useNavigateAfterLogin'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -32,9 +32,7 @@ type FieldErrors = Partial<Record<keyof LoginSchema, string>>
 // ── Component ────────────────────────────────────────────────────────────────
 export function LoginForm() {
   const { login } = useAuth()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = (location.state as { from?: Location })?.from?.pathname ?? '/'
+  const navigateAfterLogin = useNavigateAfterLogin()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -75,7 +73,7 @@ export function LoginForm() {
           username: result.data.username,
           password: result.data.password,
         })
-        navigate(from, { replace: true })
+        navigateAfterLogin()
       } catch (err) {
         setServerError(
           err instanceof Error
