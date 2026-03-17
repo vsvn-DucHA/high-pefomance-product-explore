@@ -1,6 +1,7 @@
 # Developer Documentation
 
 Thư mục này chứa tài liệu kỹ thuật cho team development, bao gồm:
+
 - Refactoring logs
 - Architecture decisions
 - Performance optimizations
@@ -28,28 +29,53 @@ dev_docs/
 ### Setup & Deployment
 
 #### [Docker Setup Guide](./docker-setup.md)
+
 **Date:** 2026-03-17
 **Type:** Infrastructure
 
 Complete Docker setup with multi-stage builds:
+
 - Development environment with hot-reload
 - Production build with Nginx
 - docker-compose for both modes
 - Health checks and monitoring
 
 **Quick Start:**
+
 ```bash
 docker-compose up dev   # Development
 docker-compose up prod  # Production
 ```
 
+### Testing
+
+#### [Test Suite Setup](../vitest.config.ts) · [E2E Config](../playwright.config.ts)
+
+**Date:** 2026-03-18
+**Type:** Testing
+
+75 unit/integration tests (Vitest) + 31 E2E tests (Playwright):
+
+- `src/services/__tests__/` — pure logic, 33 tests
+- `src/hooks/__tests__/` — hook integration, 42 tests
+- `e2e/` — full browser flows: dashboard, auth, product detail
+
+**Quick Start:**
+
+```bash
+pnpm test:run     # Unit tests
+pnpm test:e2e     # E2E tests (auto-starts dev server)
+```
+
 ### API Reference
 
 #### [Custom Hooks API Reference](./hooks-api-reference.md)
-**Date:** 2026-03-17
+
+**Date:** 2026-03-18
 **Type:** Documentation
 
 Quick reference guide for all custom hooks:
+
 - `useProductFilters` - URL-based filter state
 - `useNavigateAfterLogin` - Post-login navigation
 - `useProducts`, `useDebounce`, `useAuth`
@@ -58,14 +84,17 @@ Quick reference guide for all custom hooks:
 ### Refactoring
 
 #### [Refactor: URL State Management & Navigation Hooks](./refactor-2026-03-17-url-state-hooks.md)
+
 **Date:** 2026-03-17
 **Impact:** High - Dashboard.tsx reduced from 125 to 62 lines
 
 Extracted business logic from Dashboard and LoginForm into reusable custom hooks:
+
 - `useProductFilters` - URL state management for filters
 - `useNavigateAfterLogin` - Smart redirect after authentication
 
 **Key Metrics:**
+
 - 📉 Dashboard complexity: 15 → 3
 - 📉 Lines of code: -20.6%
 - ✅ Testability: Improved significantly
@@ -78,21 +107,25 @@ Extracted business logic from Dashboard and LoginForm into reusable custom hooks
 Folder `dev_docs` phục vụ cho:
 
 ### 1. Knowledge Sharing
+
 - Onboarding developers mới
 - Share context về technical decisions
 - Document "why" not just "what"
 
 ### 2. Code Evolution History
+
 - Track major refactorings
 - Understand evolution of architecture
 - Reference for similar changes in future
 
 ### 3. Best Practices
+
 - Showcase good patterns
 - Document anti-patterns to avoid
 - Performance optimization techniques
 
 ### 4. Decision Records
+
 - Architecture Decision Records (ADRs)
 - Technology choices
 - Trade-offs and alternatives considered
@@ -112,21 +145,27 @@ Khi tạo document mới, include:
 **Status:** Completed | In Progress | Planned
 
 ## 📋 Context
+
 [What problem are we solving?]
 
 ## 🎯 Goals
+
 [What do we want to achieve?]
 
 ## ✅ Solution
+
 [How did we solve it?]
 
 ## 📊 Metrics
+
 [Measurable improvements]
 
 ## 🧪 Testing
+
 [How to verify the change]
 
 ## 📚 References
+
 [Related docs, articles, PRs]
 ```
 
@@ -152,6 +191,7 @@ Khi thêm document mới:
 5. ✅ Link đến related PRs/commits
 
 **Examples:**
+
 - `refactor-2026-03-17-url-state-hooks.md`
 - `perf-2026-03-18-virtual-scrolling-optimization.md`
 - `arch-2026-03-20-migration-to-tanstack-router.md`
@@ -159,4 +199,4 @@ Khi thêm document mới:
 ---
 
 **Maintained by:** Development Team
-**Last updated:** 2026-03-17
+**Last updated:** 2026-03-18

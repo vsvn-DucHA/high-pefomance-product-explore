@@ -5,6 +5,7 @@ React application demonstrating high-performance product browsing with virtual s
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ (for local dev)
 - pnpm (recommended) or npm
 - Docker (optional, for production deployment)
@@ -38,11 +39,94 @@ docker-compose up -d
 ## 📦 Available Commands
 
 ```bash
-pnpm dev          # Start dev server with HMR
-pnpm build        # Build for production
-pnpm preview      # Preview production build
-pnpm lint         # Run ESLint
-pnpm tsx scripts/generateProducts.ts  # Generate products data
+pnpm dev                              # Start dev server with HMR
+pnpm build                            # Build for production
+pnpm preview                          # Preview production build
+pnpm lint                             # Run ESLint
+pnpm tsx scripts/generateProducts.ts  # Regenerate products data
+
+# Testing
+pnpm test:run         # Run all unit/integration tests once
+pnpm test             # Vitest watch mode
+pnpm test:ui          # Vitest browser UI
+pnpm test:coverage    # Coverage report → coverage/index.html
+pnpm test:e2e         # Playwright E2E tests (auto-starts dev server)
+pnpm test:e2e:ui      # Playwright interactive UI
+pnpm test:e2e:headed  # E2E with visible browser window
+```
+
+## 🧪 Testing
+
+The project uses two independent test stacks:
+
+| Stack                  | Purpose                            | Tools                            |
+| ---------------------- | ---------------------------------- | -------------------------------- |
+| **Unit / Integration** | Test hooks, services, pure logic   | Vitest + jsdom + Testing Library |
+| **E2E**                | Test real browser flows end-to-end | Playwright + Chromium            |
+
+### Run Unit & Integration Tests
+
+```bash
+# Run all at once (CI-friendly)
+pnpm test:run
+
+# Watch mode (rerun automatically when the file changes)
+pnpm test
+
+# Open Vitest UI (Intuitive interface)
+pnpm test:ui
+
+# Coverage report (export to coverage/index.html)
+pnpm test:coverage
+```
+
+### Run E2E Tests (Playwright)
+
+> The dev server will be **automatically started** before Playwright runs — no need to run `pnpm dev` first.
+
+```bash
+# Run all E2E tests (headless)
+pnpm test:e2e
+
+# Open Playwright UI to see each step
+pnpm test:e2e:ui
+
+# Run with the browser showing the screen
+pnpm test:e2e:headed
+```
+
+### First time installing Playwright browsers
+
+```bash
+npx playwright install chromium
+```
+
+### Coverage
+
+```
+All files  | ~99% Statements | ~99% Branches | 100% Functions | 100% Lines
+```
+
+### Test directory structure
+
+```
+src/
+├── services/__tests__/
+│   ├── productService.test.ts   # Unit: filter/sort/search logic
+│   └── authService.test.ts      # Unit: localStorage auth
+└── hooks/__tests__/
+    ├── useProductFilters.test.tsx  # Integration: URL ↔ filter state
+    ├── useProducts.test.tsx        # Integration: TanStack Query
+    ├── useAuth.test.tsx            # Integration: AuthContext
+    ├── useDebounce.test.ts         # Unit: debounce timing (fake timers)
+    └── useNavigateAfterLogin.test.tsx  # Unit: navigation logic
+
+e2e/
+├── dashboard.spec.ts       # E2E: search, sort, URL shareability, auth redirect
+├── auth.spec.ts            # E2E: login form, validation, logout flow
+├── product-detail.spec.ts  # E2E: product card navigation, detail page, back nav
+└── helpers/
+    └── auth.ts             # localStorage auth bypass helper
 ```
 
 ## 🛠 Tech Stack

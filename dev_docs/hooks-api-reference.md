@@ -56,32 +56,38 @@ function ProductPage() {
 
 ```typescript
 interface FilterState {
-  search: string           // Search query
-  categories: Category[]   // Selected categories
-  priceMin: number        // Min price (0-1000)
-  priceMax: number        // Max price (0-1000)
-  minRating: number       // Min rating (0-5)
-  sortBy: SortBy          // Sort order
+  search: string // Search query
+  categories: Category[] // Selected categories
+  priceMin: number // Min price (0-1000)
+  priceMax: number // Max price (0-1000)
+  minRating: number // Min rating (0-5)
+  sortBy: SortBy // Sort order
 }
 
 type SortBy = 'price_asc' | 'price_desc' | 'rating' | 'name'
-type Category = 'Electronics' | 'Clothing' | 'Home & Garden' | 'Sports & Outdoors' | 'Books & Media'
+type Category =
+  | 'Electronics'
+  | 'Clothing'
+  | 'Home & Garden'
+  | 'Sports & Outdoors'
+  | 'Books & Media'
 ```
 
 ### URL Mapping
 
-| Filter | URL Param | Example |
-|--------|-----------|---------|
-| search | `search` | `?search=laptop` |
-| categories | `category` | `?category=Electronics&category=Clothing` |
-| priceMin | `priceMin` | `?priceMin=100` |
-| priceMax | `priceMax` | `?priceMax=500` |
-| minRating | `minRating` | `?minRating=4` |
-| sortBy | `sortBy` | `?sortBy=price_asc` |
+| Filter     | URL Param   | Example                                   |
+| ---------- | ----------- | ----------------------------------------- |
+| search     | `search`    | `?search=laptop`                          |
+| categories | `category`  | `?category=Electronics&category=Clothing` |
+| priceMin   | `priceMin`  | `?priceMin=100`                           |
+| priceMax   | `priceMax`  | `?priceMax=500`                           |
+| minRating  | `minRating` | `?minRating=4`                            |
+| sortBy     | `sortBy`    | `?sortBy=price_asc`                       |
 
 ### Examples
 
 #### Basic Search
+
 ```typescript
 const { filters, setSearch } = useProductFilters()
 
@@ -92,6 +98,7 @@ setSearch('laptop')
 ```
 
 #### Multiple Categories
+
 ```typescript
 const { filters, setCategories } = useProductFilters()
 
@@ -102,6 +109,7 @@ setCategories(['Electronics', 'Clothing'])
 ```
 
 #### Price Range
+
 ```typescript
 const { setPriceRange } = useProductFilters()
 
@@ -111,6 +119,7 @@ setPriceRange(100, 500)
 ```
 
 #### Combined Filters
+
 ```typescript
 const { setSearch, setCategories, setMinRating } = useProductFilters()
 
@@ -121,6 +130,7 @@ setMinRating(4)
 ```
 
 #### Clear All Filters
+
 ```typescript
 const { clearAll } = useProductFilters()
 
@@ -141,6 +151,7 @@ clearAll()
 ### Best Practices
 
 #### ✅ DO
+
 ```typescript
 // Use for URL-based filters
 const { filters } = useProductFilters()
@@ -152,6 +163,7 @@ const debouncedSearch = useDebounce(filters.search, 500)
 ```
 
 #### ❌ DON'T
+
 ```typescript
 // Don't manage same state in local state AND URL
 const [search, setSearch] = useState('') // ❌ Redundant
@@ -207,14 +219,17 @@ useNavigateAfterLogin(defaultRoute?: string)
 ### How It Works
 
 1. User tries to access protected route `/products/123`
-2. Not authenticated → redirected to `/login` with `state.from = /products/123`
+2. Not authenticated → `ProtectedRoute` redirects to `/login` with `state.from = { pathname: '/products/123' }`
 3. User logs in successfully
-4. `navigateAfterLogin()` reads `state.from` and navigates to `/products/123`
-5. If no `state.from`, navigates to default route
+4. `navigateAfterLogin()` reads `state.from.pathname` and navigates there
+5. If no `state.from`, navigates to `defaultRoute` (default: `'/'`)
+
+> **Note:** Only `pathname` is preserved — query params from the original URL are not carried over to the post-login redirect.
 
 ### Examples
 
 #### Basic Login Flow
+
 ```typescript
 function LoginPage() {
   const navigateAfterLogin = useNavigateAfterLogin()
@@ -227,6 +242,7 @@ function LoginPage() {
 ```
 
 #### Custom Default Route
+
 ```typescript
 // Navigate to dashboard instead of homepage
 const navigateAfterLogin = useNavigateAfterLogin('/dashboard')
@@ -237,6 +253,7 @@ onLogin()
 ```
 
 #### Social Login
+
 ```typescript
 function GoogleLoginButton() {
   const navigateAfterLogin = useNavigateAfterLogin()
@@ -253,6 +270,7 @@ function GoogleLoginButton() {
 ```
 
 #### Magic Link
+
 ```typescript
 function MagicLinkHandler() {
   const navigateAfterLogin = useNavigateAfterLogin()
@@ -277,10 +295,12 @@ function MagicLinkHandler() {
 - ✅ **Flexible:** Custom default route
 - ✅ **Self-Documenting:** Clear intent from name
 - ✅ **Reusable:** Works with any auth flow
+- ⚠️ **pathname only:** Does not preserve search params from the pre-login URL
 
 ### Best Practices
 
 #### ✅ DO
+
 ```typescript
 // Use after successful authentication
 const navigateAfterLogin = useNavigateAfterLogin()
@@ -292,6 +312,7 @@ const navigateAfterLogin = useNavigateAfterLogin('/dashboard')
 ```
 
 #### ❌ DON'T
+
 ```typescript
 // Don't use for general navigation
 const navigateAfterLogin = useNavigateAfterLogin()
@@ -388,7 +409,7 @@ useDebounce<T>(value: T, delay?: number)
 ### Return Value
 
 ```typescript
-T  // Debounced value
+T // Debounced value
 ```
 
 ---
@@ -435,14 +456,14 @@ function UserMenu() {
 
 ## 📋 Quick Reference
 
-| Hook | Purpose | Common Use Case |
-|------|---------|----------------|
-| `useProductFilters` | URL state for filters | Dashboard, Search pages |
-| `useNavigateAfterLogin` | Post-login redirect | Login, Social auth |
-| `useProducts` | Fetch filtered products | Product lists |
-| `useDebounce` | Debounce input | Search, Filters |
-| `useAuth` | Auth context access | Protected routes, User menu |
+| Hook                    | Purpose                 | Common Use Case             |
+| ----------------------- | ----------------------- | --------------------------- |
+| `useProductFilters`     | URL state for filters   | Dashboard, Search pages     |
+| `useNavigateAfterLogin` | Post-login redirect     | Login, Social auth          |
+| `useProducts`           | Fetch filtered products | Product lists               |
+| `useDebounce`           | Debounce input          | Search, Filters             |
+| `useAuth`               | Auth context access     | Protected routes, User menu |
 
 ---
 
-**Last updated:** 2026-03-17
+**Last updated:** 2026-03-18
