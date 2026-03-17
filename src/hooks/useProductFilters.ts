@@ -44,43 +44,40 @@ export function useProductFilters() {
     )
   }
 
-  // Typed filter update handlers
-  const handlers = useMemo(
-    () => ({
-      setSearch: (value: string) => {
-        updateParams({ search: value || null })
-      },
+  const setSearch = (value: string) => {
+    updateParams({ search: value || null })
+  }
 
-      setCategories: (cats: Category[]) => {
-        updateParams({ category: cats.length > 0 ? cats : null })
-      },
+  const setCategories = (cats: Category[]) => {
+    updateParams({ category: cats.length > 0 ? cats : null })
+  }
 
-      setPriceRange: (min: number, max: number) => {
-        updateParams({
-          priceMin: min > 0 ? String(min) : null,
-          priceMax: max < 1000 ? String(max) : null,
-        })
-      },
+  const setPriceRange = (min: number, max: number) => {
+    updateParams({
+      priceMin: min > 0 ? String(min) : null,
+      priceMax: max < 1000 ? String(max) : null,
+    })
+  }
 
-      setMinRating: (rating: number) => {
-        updateParams({ minRating: rating > 0 ? String(rating) : null })
-      },
+  const setMinRating = (rating: number) => {
+    updateParams({ minRating: rating > 0 ? String(rating) : null })
+  }
 
-      setSortBy: (value: SortBy) => {
-        updateParams({ sortBy: value !== 'name' ? value : null })
-      },
+  const setSortBy = (value: SortBy) => {
+    updateParams({ sortBy: value !== 'name' ? value : null })
+  }
 
-      clearAll: () => {
-        setSearchParams({}, { replace: true })
-      },
-    }),
-    // updateParams uses setSearchParams which is stable
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  )
+  const clearAll = () => {
+    setSearchParams({}, { replace: true })
+  }
 
   return {
     filters,
-    ...handlers,
+    setSearch,
+    setCategories,
+    setPriceRange,
+    setMinRating,
+    setSortBy,
+    clearAll,
   }
 }
