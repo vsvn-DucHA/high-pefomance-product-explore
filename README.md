@@ -1,75 +1,91 @@
-# React + TypeScript + Vite
+# High-Performance Product Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React application demonstrating high-performance product browsing with virtual scrolling, URL-based filters, and efficient state management for 10,000+ items.
 
-Currently, two official plugins are available:
+## 🚀 Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Prerequisites
+- Node.js 18+ (for local dev)
+- pnpm (recommended) or npm
+- Docker (optional, for production deployment)
 
-## React Compiler
+### Local Development
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+```bash
+# Install dependencies
+pnpm install
 
-Note: This will impact Vite dev & build performances.
+# Generate mock product data (10,000 products)
+pnpm tsx scripts/generateProducts.ts
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Visit [http://localhost:5173](http://localhost:5173)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Default credentials:** Any username/password (demo mode)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Docker Production
+
+```bash
+# Build and run production container
+docker-compose up -d
+
+# Access at http://localhost
 ```
+
+## 📦 Available Commands
+
+```bash
+pnpm dev          # Start dev server with HMR
+pnpm build        # Build for production
+pnpm preview      # Preview production build
+pnpm lint         # Run ESLint
+pnpm tsx scripts/generateProducts.ts  # Generate products data
+```
+
+## 🛠 Tech Stack
+
+- **React 19** + TypeScript + React Compiler
+- **Vite 8** - Build tool with HMR
+- **TanStack Query** - Data fetching & caching
+- **TanStack Virtual** - Virtual scrolling for 10k items
+- **React Router v7** - URL-first routing
+- **shadcn/ui** - Accessible UI components
+- **Tailwind CSS v4** - Styling
+
+## 📚 Documentation
+
+- **[CLAUDE.md](./CLAUDE.md)** - Project architecture & patterns
+- **[dev_docs/](./dev_docs/)** - Technical documentation, refactorings, API references
+
+## 🏗 Project Structure
+
+```
+src/
+├── components/    # UI components (auth, products, layout)
+├── hooks/         # Custom React hooks
+├── pages/         # Page components
+├── services/      # Business logic layer
+├── context/       # React contexts (Auth)
+├── types/         # TypeScript definitions
+├── lib/           # Utilities (queryClient, utils)
+└── data/          # products.json (generated)
+```
+
+## 🎯 Key Features
+
+- ✅ Virtual scrolling (handles 10k products smoothly)
+- ✅ URL-based filter state (shareable links)
+- ✅ Real-time search with debouncing
+- ✅ Multi-select category filters
+- ✅ Price range slider
+- ✅ Rating filter & sorting
+- ✅ Authentication with protected routes
+- ✅ Responsive design
+- ✅ Accessibility (ARIA labels, keyboard nav)
+
+## 📄 License
+
+MIT
