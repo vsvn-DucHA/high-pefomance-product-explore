@@ -1,12 +1,16 @@
+import { useState } from 'react'
 import { useProducts } from '@/hooks/useProducts'
 import { useProductFilters } from '@/hooks/useProductFilters'
 import { ProductList } from '@/components/products/ProductList'
 import { ProductSearch } from '@/components/products/ProductSearch'
 import { ProductSort } from '@/components/products/ProductSort'
 import { ProductFilters } from '@/components/products/ProductFilters'
-import { LayoutGrid } from 'lucide-react'
+import { LayoutGrid, SlidersHorizontal } from 'lucide-react'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/button'
 
 export function Dashboard() {
+  const [filterOpen, setFilterOpen] = useState(false)
   const {
     filters,
     setSearch,
@@ -30,6 +34,37 @@ export function Dashboard() {
       {/* Toolbar: Search + Sort — sticky dưới header */}
       <div className='sticky top-16 z-30 bg-gray-50/95 backdrop-blur-sm py-3 mb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-gray-200'>
         <div className='flex flex-wrap items-center gap-3'>
+          {/* Mobile filter button */}
+          <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
+            <SheetTrigger
+              render={
+                <Button
+                  variant='outline'
+                  size='sm'
+                  className='lg:hidden'
+                  aria-label='Open filters'
+                />
+              }
+            >
+              <SlidersHorizontal className='w-4 h-4' />
+            </SheetTrigger>
+            <SheetContent side='left' className='w-70 sm:w-80 p-0'>
+              <div className='h-full overflow-y-auto p-4'>
+                <ProductFilters
+                  categories={filters.categories ?? []}
+                  priceMin={filters.priceMin ?? 0}
+                  priceMax={filters.priceMax ?? 1000}
+                  minRating={filters.minRating ?? 0}
+                  onCategoriesChange={setCategories}
+                  onPriceRangeChange={setPriceRange}
+                  onMinRatingChange={setMinRating}
+                  onClearAll={clearAll}
+                  totalResults={products.length}
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+
           <ProductSearch value={filters.search ?? ''} onChange={setSearch} />
           <ProductSort value={filters.sortBy ?? 'name'} onChange={setSortBy} />
         </div>
