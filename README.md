@@ -2,6 +2,8 @@
 
 React application demonstrating high-performance product browsing with virtual scrolling, URL-based filters, and efficient state management for 10,000+ items.
 
+**Live Demo:** [https://high-pefomance-product-explore.vercel.app/](https://high-pefomance-product-explore.vercel.app/)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -169,6 +171,29 @@ src/
 - ✅ Authentication with protected routes
 - ✅ Responsive design
 - ✅ Accessibility (ARIA labels, keyboard nav)
+
+## 🤖 AI Usage Disclosure
+
+This project was developed with AI assistance (GitHub Copilot / Claude). Below is a transparent breakdown of how AI was used and what remained human-driven.
+
+### What AI helped with
+
+| Area                        | How AI was used                                                                                                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Planning & architecture** | Proposed URL-first state management pattern, virtual scrolling strategy, and provider hierarchy before any code was written                                        |
+| **Docs lookup**             | Fetched up-to-date API references for TanStack Virtual v3, React Router v7, and Vitest v4 to avoid outdated patterns                                               |
+| **Test generation**         | Generated unit, integration, and E2E test scaffolding; suggested edge cases (stale timers, empty deps arrays, localStorage corruption)                             |
+| **Bug hypothesis**          | Identified the `useMemo(..., [])` + React Compiler conflict that caused filter resets — surfaced as a candidate hypothesis for the developer to verify and confirm |
+| **Boilerplate**             | Config files (`vitest.config.ts`, `playwright.config.ts`), provider wrappers in tests, Playwright auth helpers                                                     |
+| **Documentation**           | Drafted `CHANGELOG.md` entries, `hooks-api-reference.md`, and `dev_docs/` structure                                                                                |
+
+### What remained human-driven
+
+- Final decisions on all architecture trade-offs
+- Verification and confirmation of bugs before fixing
+- Product requirements and UX decisions
+- Code review and approval of every AI-suggested change
+- Judgment on which test cases reflect real user risk vs. low-value coverage
 
 ## 📄 License
 
